@@ -51,9 +51,23 @@ project.ext {
   ])
 }
 
+apply from: file("./../../app/android/firebase-json.gradle")
+
+def taskExecutorMaximumPoolSize = "1"
+def taskExecutorKeepAliveSeconds = "3"
+
+if (rootProject.ext && rootProject.ext.firebaseJson) {
+  taskExecutorMaximumPoolSize = rootProject.ext.firebaseJson.getStringValue("android_task_executor_maximum_pool_size", "1")
+  taskExecutorKeepAliveSeconds = rootProject.ext.firebaseJson.getStringValue("android_task_executor_keep_alive_seconds", "3")
+}
+
 android {
   defaultConfig {
     multiDexEnabled true
+    manifestPlaceholders = [
+      firebaseJsonTaskExecutorMaximumPoolSize: taskExecutorMaximumPoolSize,
+      firebaseJsonTaskExecutorKeepAliveSeconds: taskExecutorKeepAliveSeconds,
+    ]
   }
   lintOptions {
     disable 'GradleCompatible'

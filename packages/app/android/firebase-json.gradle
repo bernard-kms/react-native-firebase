@@ -38,7 +38,7 @@ if (jsonFile != null && jsonFile.exists()) {
       },
       getStringValue: { key, defaultValue ->
         if (json[jsonRoot] == null) return defaultValue
-        return json[jsonRoot][key] ? json[jsonRoot][key] : defaultValue
+        return json[jsonRoot][key] ? "${json[jsonRoot][key]}" : defaultValue
       }
     ]
 
